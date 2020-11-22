@@ -54,7 +54,23 @@ class WGraph_AlgoTest {
         d = ag0.shortestPathDist(0,9);
         assertEquals(d, 7.1);
     }
+    @Test
+    void shortpathTest(){
+        int v =20;
+        weighted_graph ag0 = new WGraph_DS();
+        for (int i=0; i<v; i++){
+            ag0.addNode(i);
+        }
+        for (int i=0; i<v-1; i++){
+            ag0.connect(i,i+1,i);
+        }
+        weighted_graph_algorithms ag1 = new WGraph_Algo();
+        ag1.init(ag0);
 
+        System.out.println("short PAth is " +ag1.shortestPath(0,2));
+        assertEquals(ag1.shortestPathDist(0,2), 1);
+
+    }
     @Test
     void shortestPath() {
         weighted_graph g0 = small_graph();

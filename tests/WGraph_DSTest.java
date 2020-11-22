@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class WGraph_DSTest {
     private static Random _rnd = null;
     //Test for add 5000 nodes and try remove
-    @org.junit.Test(timeout = 5000)
+    @org.junit.Test(timeout = 50000)
     @Test
     void addNode(){
         weighted_graph g = new WGraph_DS();
-        int V =5000;
+        int V =1000000;
         for (int i=0; i<V; i++){
             g.addNode(i);
             g.addNode(i);
@@ -27,9 +27,10 @@ class WGraph_DSTest {
         for (int i=0; i<V; i++){
             if (i%5==0){
                 g.removeNode(i);
+                V--;
             }
         }
-        V-=1000;
+
         expected = g.nodeSize();
         assertEquals(expected,V);
     }
