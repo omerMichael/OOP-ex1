@@ -139,6 +139,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
         infini();
         Queue<node_info> q = new LinkedList<node_info>();
         node_info srcN = gr.getNode(src);
+
         srcN.setTag(0);
         srcN.setInfo("" + srcN.getKey());
         Compy comperaTor = new Compy();
