@@ -37,6 +37,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      */
     @Override
     public weighted_graph copy() {
+        // call to contractor WGraph_DS their build the graph
         weighted_graph c = new WGraph_DS(gr);
         return c;
     }
@@ -53,10 +54,13 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      */
     @Override
     public boolean isConnected() {
+        //if the graph have only 1 or 0 vertex it is connected
         if (gr.nodeSize() <= 1)
             return true;
+
         else if (gr.nodeSize() - 1 > gr.edgeSize())
             return false;
+        //mark unvisited
         infini();
         Iterator<node_info> n = this.gr.getV().iterator();
         //send the key of the first node
@@ -96,11 +100,14 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
     private void BFSc(int key) {
 
         node_info n = this.gr.getNode(key);
+        //create queue
         Queue<node_info> q = new LinkedList<node_info>();
+        //add the src to queue
         q.add(n);
         n.setTag(1); //visit
 
         while (!q.isEmpty()) {
+            //dequeue the first from the queue
             n = q.poll();
             int y = n.getKey();
             y = y;
@@ -111,37 +118,41 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
                 double m = l.getTag();
                 m = m;
                 m = m;
+                // check in the node is uvivised
                 if (l.getTag() != 1) {
-                    l.setTag(1); //visit
+                    l.setTag(1); // mark visit
                     q.add(l); // add the node to the queue
                 }
             }
             //  n = q.poll(); // dequeue from the queue
         }
-        System.out.println("here ");
     }
 
-    //dijkstra
+
 
     /**
      * returns the length of the shortest path between src to dest
-     *
+     *   //dijkstra
      * @param src  - start node
      * @param dest - end (target) node
      * @return
      */
     @Override
     public double shortestPathDist(int src, int dest) {
-        //
+        //check if the nodes exist
         if (!this.gr.getV().contains(gr.getNode(src)) || !this.gr.getV().contains(gr.getNode(dest))) return -1;
+        //same node the weight is zero
         if (src == dest) return 0;
-        //
+        //all the nodes mark unvisit and the weight now is infinity
         infini();
+        //create a queue for the algo
         Queue<node_info> q = new LinkedList<node_info>();
         node_info srcN = gr.getNode(src);
-
+        //now the weight of the src node is 0
         srcN.setTag(0);
+        //add metaData for the PathInfo
         srcN.setInfo("" + srcN.getKey());
+        //create a Comperator to sort the Object in the queue
         Compy comperaTor = new Compy();
         q.add(srcN);
         //check the queue is not empty and if not visit in node dest
@@ -183,7 +194,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
 
     }
-
+    //init all the nodes to infinity
     private void infini() {
         for (node_info i : gr.getV()) {
             i.setTag(Double.MAX_VALUE);
@@ -235,7 +246,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
         } catch (IOException e) {
 
-            throw new RuntimeException("Error: Can't save the graph to file");
+            throw new RuntimeException("Error: Failed to save graph  the graph to file");
 
         }
         return true;
@@ -263,9 +274,19 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
 }
 
+/**
+ * Create a new class comperator to sort the object
+ */
 class Compy implements Comparator<node_info> {
 
     //sort by comp
+
+    /**
+     * methood for compare Object
+     * @param o1
+     * @param o2
+     * @return
+     */
     @Override
     public int compare(node_info o1, node_info o2) {
         return Double.compare(o1.getTag(), o2.getTag());

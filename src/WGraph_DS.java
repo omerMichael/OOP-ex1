@@ -14,6 +14,11 @@ public class WGraph_DS implements weighted_graph , Serializable {
     private int MC=0;
     private int numOfEd = 0;
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +82,10 @@ public class WGraph_DS implements weighted_graph , Serializable {
 //        private Collection<node_info> nei=new HashSet<>();
         //private static int count = 0;
 
+       /**
+        * toString
+        * @return
+        */
        @Override
        public String toString() {
            return "{" +
@@ -102,26 +111,47 @@ public class WGraph_DS implements weighted_graph , Serializable {
         }
 
 
+       /**
+        * Return the key (id) associated with this node.
+        * @return
+        */
         @Override
         public int getKey() {
             return this.key;
         }
 
+       /**
+        * return the remark (meta data) associated with this node.
+        * @return
+        */
         @Override
         public String getInfo() {
             return this.info;
         }
 
+        /**
+         *Allows changing the remark (meta data) associated with this node.
+         */
         @Override
         public void setInfo(String s) {
             this.info = s;
         }
 
+       /**
+        * Temporal data (aka distance, color, or state)
+        * which can be used be algorithms
+        * @return
+        */
         @Override
         public double getTag() {
             return this.tag;
         }
 
+       /**
+        *Allow setting the "tag" value for temporal marking an node - common
+        *practice for marking by algorithms.
+        * @param t - the new value of the tag
+        */
         @Override
         public void setTag(double t) {
             this.tag = t;
@@ -129,13 +159,23 @@ public class WGraph_DS implements weighted_graph , Serializable {
     } //end of inner class node_info
 
 
-
+    /**
+     * return the node_data by the node_id
+     * @param key - the node_id
+     * @return
+     */
     @Override
     public node_info getNode(int key) {
 
           return this.nodes.get(key);
     }
 
+    /**
+     *return true iff (if and only if) there is an edge between node1 and node2
+     * @param node1
+     * @param node2
+     * @return
+     */
     @Override
     public boolean hasEdge(int node1, int node2) {
 //        if (!nodes.containsKey(node1) || !nodes.containsKey(node1) )
@@ -148,6 +188,14 @@ public class WGraph_DS implements weighted_graph , Serializable {
 //        System.out.println("nei is: "+Nei.get(n1.getKey()));
         return Nei.get(node1).containsKey(node2) || Nei.get(node2).containsKey(node1);
     }
+
+    /**
+     * return the weight if the edge (node1, node1). In case
+     * there is no such edge - should return -1
+     * @param node1
+     * @param node2
+     * @return
+     */
     @Override
     public double getEdge(int node1, int node2) {
         if (!(hasEdge(node1,node2))) return -1;
@@ -155,6 +203,10 @@ public class WGraph_DS implements weighted_graph , Serializable {
         return w;
     }
 
+    /**
+     * add a new node to the graph with the given key.
+     * @param key
+     */
     @Override
     public void addNode(int key) {
         if(!nodes.containsKey(key)) {
@@ -167,9 +219,15 @@ public class WGraph_DS implements weighted_graph , Serializable {
         }
     }
 
+    /**
+     * Connect an edge between node1 and node2, with an edge with weight >=0.
+     * @param node1
+     * @param node2
+     * @param w
+     */
     @Override
     public void connect(int node1, int node2, double w) {
-        System.out.println("conncet" + node1 + " to " + node2);
+//        System.out.println("conncet" + node1 + " to " + node2);
         if(node1!=node2&&this.getNode(node1)!=null&&this.getNode(node2)!=null) {
             if (hasEdge(node1, node2)) {
                 weight.get(node1).replace(node2, w);
@@ -195,16 +253,36 @@ public class WGraph_DS implements weighted_graph , Serializable {
 
     }
 
+    /**
+     * This method return a pointer (shallow copy) for a
+     * Collection representing all the nodes in the graph.
+     * @return
+     */
     @Override
     public Collection<node_info> getV() {
         return nodes.values();
     }
 
+    /**
+     * This method returns a Collection containing all the
+     * nodes connected to node_id
+     * Note: this method can run in O(k) time, k - being the degree of node_id.
+     * @param node_id
+     * @return
+     */
     @Override
     public Collection<node_info> getV(int node_id) {
         return this.Nei.get(node_id).values();
     }
 
+    /**
+     * Delete the node (with the given ID) from the graph -
+     * and removes all edges which starts or ends at this node.
+     * This method should run in O(n), |V|=n, as all the edges should be removed.
+     * @return the data of the removed node (null if none).
+     * @param key
+     * @return
+     */
     @Override
     public node_info removeNode(int key) {
         if(this.nodes.containsKey(key)) {
@@ -224,6 +302,12 @@ public class WGraph_DS implements weighted_graph , Serializable {
         return  null;
     }
 
+    /**
+     * Delete the node (with the given ID) from the graph -
+     *and removes all edges which starts or ends at this node.
+     * @param node1
+     * @param node2
+     */
     @Override
     public void removeEdge(int node1, int node2) {
         if (hasEdge(node1,node2)&&node1!=node2) {
@@ -238,17 +322,29 @@ public class WGraph_DS implements weighted_graph , Serializable {
 
     }
 
+    /**
+     * return the number of vertices (nodes) in the graph.
+     * @return
+     */
     @Override
     public int nodeSize() {
         return this.nodes.size();
     }
 
+    /**
+     *return the number of edges (undirectional graph).
+     * @return
+     */
     @Override
     public int edgeSize() {
 //        System.out.println("fun edgesize now is " +this.numOfEd);
         return this.numOfEd;
     }
 
+    /**
+     * return the Mode Count - for testing changes in the graph.
+     * @return
+     */
     @Override
     public int getMC() {
         return this.MC;
